@@ -6,6 +6,7 @@ var types = {
     "vodcast": "<span class='fa fa-circle vodcast'></span> Vodcast",
     "live": "<span class='fa fa-circle live'></span> Live",
     "offline": "<span class='fa fa-circle offline'></span> Offline",
+    "watch_party": "<span class='fa fa-circle live'></span> Watch Party"
 }
 
 $("document").ready(function () {
@@ -59,6 +60,7 @@ function GetStreamStatus(userInfo) {
         },
         success: function (data) {
             var streamInfo = data.stream;
+            console.log(streamInfo);
             if (streamInfo === null) {
                 SetOffline(userInfo);
             } else {
@@ -67,7 +69,11 @@ function GetStreamStatus(userInfo) {
                 channelData.gameStatus = streamInfo.channel['status'];
                 channelData.url = streamInfo.channel['url'];
                 channelData.type = streamInfo['stream_type'];
-                SetOnline(channelData);
+                if(channelData.type === "watch_party"){
+                    SetWatchParty(channelData)
+                } else {
+                    SetOnline(channelData);
+                }
             }
         }
     });
@@ -89,6 +95,15 @@ function GetDescriptionSnip(desc) {
     } else {
         return desc;
     }
+}
+
+function SetWatchParty(channelData) {
+    $(".streams").append("<div id='" + channelData['displayName'] + "' class='stream'><table class='stream-info'><tr><td class='profile-image' rowspan='4'>" + channelData['profileImageURL'] + "</td><td class='stream-name' rowspan='4'>" + channelData['displayName'] + "</td></tr><tr><td class='stream-status'>" + types['watch_party'] + "</td></tr><tr><td class='stream-game'>" + channelData['description'] + "</td></tr><tr><td class='stream-title'></td></tr></table></div>");
+    var name = channelData['displayName'];
+    stream_status[name] = 'online';
+    $("#" + channelData['displayName']).click(function(){
+        window.open('https://go.twitch.tv/' + channelData['displayName']);
+    });
 }
 
 function SetOffline(channelData) {
