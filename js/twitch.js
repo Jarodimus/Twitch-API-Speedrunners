@@ -98,7 +98,7 @@ function GetDescriptionSnip(desc) {
 }
 
 function SetWatchParty(channelData) {
-    $(".streams").append("<div id='" + channelData['displayName'] + "' class='stream'><table class='stream-info'><tr><td class='profile-image' rowspan='4'>" + channelData['profileImageURL'] + "</td><td class='stream-name' rowspan='4'>" + channelData['displayName'] + "</td></tr><tr><td class='stream-status'>" + types['watch_party'] + "</td></tr><tr><td class='stream-game'>" + channelData['description'] + "</td></tr><tr><td class='stream-title'></td></tr></table></div>");
+    $(".streams").append("<div id='" + channelData['displayName'] + "' class='stream'><table class='stream-info'><tr><td class='profile-image' rowspan='4'>" + channelData['profileImageURL'] + "</td><td class='stream-name' rowspan='4'>" + channelData['displayName'] + "</td></tr><tr><td class='stream-status'>" + types['watch_party'] + "</td></tr><tr><td class='stream-game'><b>Playing: </b>" + channelData['game'] + "</td></tr><tr><td class='stream-title'>" + channelData['gameStatus'] + "</td></tr></table></div>");
     var name = channelData['displayName'];
     stream_status[name] = 'online';
     $("#" + channelData['displayName']).click(function(){
